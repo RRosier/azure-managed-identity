@@ -1,12 +1,14 @@
-﻿using Azure.Identity;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Managed.Identity.Configuration;
 
 static class Program
 {
     static void Main()
     {
-        const string connString = "Server=sqlmi-exos-dev.2f8fdfe3c502.database.windows.net;Authentication=Active Directory Managed Identity;User Id=05193909-dd03-463d-ab41-85db66391173;Database=Exos9300";
-        const string queryString = "SELECT UserName from dbo.uUsers";
+        // string? connString = Configuration.Instance.GetConnectionString("azureManagedInstance");
+        string? connString = Configuration.Instance.GetConnectionString("azureUserManagedInstance");
+        const string queryString = "SELECT Name from dbo.People";
 
         using (SqlConnection connection = new SqlConnection(connString))
         {
